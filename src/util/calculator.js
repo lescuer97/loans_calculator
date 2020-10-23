@@ -18,30 +18,31 @@ const calculator = (form) => {
   //conto de meses de transasction
   let mes = 0;
 
-  for (let i = prestamo; i >= 0; i++) {
+  for (let i = prestamo; i >= 0; i) {
+    if (i.toFixed(0) <= 0 && prestamo.toFixed(0) * 1 <= 0) {
+      break;
+    }
     //cuanto paga de interes
     const pagoint = prestamo * (inter / 12);
 
     const menosBlc = pagoMensual - pagoint;
-    console.log(menosBlc);
 
     prestamo = prestamo - menosBlc;
-    console.log("prestamo :", prestamo);
-    console.log("pago  interes :", pagoint);
-    console.log("pago  amor :", menosBlc);
+    console.log("prestamo :", prestamo.toFixed(2));
+    console.log("pago  interes :", pagoint.toFixed(2));
+    console.log("pago  amor :", menosBlc.toFixed(2));
     mes++;
 
     let totmes = {
-      balance: prestamo,
-      mes,
-      pago_mesual: pagoMensual,
+      balance: prestamo.toFixed(2),
+      mes: mes.toFixed(2),
+      pago_mesual: pagoMensual.toFixed(2),
+      pago_interes: pagoint.toFixed(2),
+      pago_amor: menosBlc.toFixed(2),
     };
 
     i = i - menosBlc;
     total.push(totmes);
-    if (i <= 0 && prestamo <= 0) {
-      break;
-    }
   }
 
   return total;
