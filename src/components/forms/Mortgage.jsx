@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import calculator from "../../util/calculator";
 import Table from "../pages/Table";
 
 const Mortgage = () => {
   const [wasm, setWasm] = useState(null);
+  //TODO agregar checkbox de opciones de hipoteca para mejores opciones
 
   // loads wasm to the app for calculation
   const loadedWasm = async () => {
@@ -45,16 +46,14 @@ const Mortgage = () => {
       anos: hip.años * 1,
       interes: hip.interes * 1,
     };
-    const date1 = Date.now();
-    const info = wasm.mort_calculator(data);
-    // const info = calculator(data);
+
+    // const info = wasm.mort_calculator(data);
+    const info = calculator(data);
     console.log(info);
-    const compare = Date.now() - date1;
-    console.log(compare);
 
     // const total = calculator(data);
 
-    // setMorti(total);
+    setMorti(info);
   };
   return (
     <>
@@ -151,7 +150,8 @@ const Mortgage = () => {
           </button> */}
         </form>
       </div>
-      {morti ? <Table mort={morti} /> : <div></div>}
+      <Table mort={morti} />
+      {/* {morti !== [] ? <div></div> : <Table mort={morti} />} */}
     </>
   );
 };
