@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 
 import calculator from "../../util/calculator";
 import Table from "../pages/Table";
+import ChartPie from "../charts/ChartPie";
 
 const Mortgage = () => {
   const [wasm, setWasm] = useState(null);
@@ -27,7 +28,8 @@ const Mortgage = () => {
     email: "",
   });
 
-  const [morti, setMorti] = useState([]);
+  const [morti, setMorti] = useState(null);
+  const [graphdat, setGraphdat] = useState(null);
 
   const { precio, prestamo, años, interes, email } = hip;
 
@@ -46,14 +48,56 @@ const Mortgage = () => {
       anos: hip.años * 1,
       interes: hip.interes * 1,
     };
+    const date = Date.now();
 
-    // const info = wasm.mort_calculator(data);
-    const info = calculator(data);
-    console.log(info);
+    //normal data
+    // const normalData = calculator(data);
+    const normalData = wasm.mort_calculator(data);
+    setMorti(normalData);
+    const normalDataPop = normalData.pop();
+    console.log(normalDataPop);
 
-    // const total = calculator(data);
+    // calculates data with less price same year and interest
+    const data2 = data;
+    data2.prestamo = data2.prestamo * 0.8;
+    // const lessPrice = calculator(data2);
+    const lessPrice = wasm.mort_calculator(data2);
+    const lessPricePop = lessPrice.pop();
+    console.log(lessPricePop);
 
-    setMorti(info);
+    // calculates data with less years
+    const data3 = data;
+    data3.anos = data3.anos * 0.8;
+    // const lessAnos = calculator(data3);
+    const lessAnos = wasm.mort_calculator(data3);
+    const lessAnosPop = lessAnos.pop();
+    console.log(lessAnosPop);
+
+    // calculates data with less of everything
+    const data4 = data;
+    data4.anos = data4.anos * 0.8;
+    data4.interes = data4.interes * 0.8;
+    data4.prestamo = data4.prestamo * 0.8;
+
+    // const lessEvery = calculator(data4);
+    const lessEvery = wasm.mort_calculator(data4);
+    const lessEveryPop = lessEvery.pop();
+    console.log(lessEveryPop);
+
+    console.log(Date.now() - date);
+
+    // setGraphdat([
+    //   {
+    //     name: "Amor Total",
+    //     value: normalDataPop.pago_total_amor * 1,
+    //   },
+    //   {
+    //     name: "Interes Total",
+    //     value: normalDataPop.intereses_totales * 1,
+    //   },
+    // ]);
+    // console.log(normalDataPop);
+    // console.log(info);
   };
   return (
     <>
@@ -150,8 +194,12 @@ const Mortgage = () => {
           </button> */}
         </form>
       </div>
-      <Table mort={morti} />
-      {/* {morti !== [] ? <div></div> : <Table mort={morti} />} */}
+      {/* <Table mort={morti} /> */}
+      <div className='mt-4'>
+        {/* <ChartPie /> */}
+        {!graphdat ? <div></div> : <ChartPie graphdat={graphdat} />}
+      </div>
+      {/* {!morti ? <div></div> : <Table mort={morti} />} */}
     </>
   );
 };

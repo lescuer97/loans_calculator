@@ -8,15 +8,15 @@ const calculator = (form) => {
 
   //cuanto paga de interes
   const pagoint = base * (inter / 12);
-  console.log("pago int: ", pagoint);
+  // console.log("pago int: ", pagoint);
 
   // amortizacion anual
   const amortpago = Math.pow(1 + inter / 12, 12 * anos);
-  console.log("amortpago: ", amortpago);
+  // console.log("amortpago: ", amortpago);
 
   // calcula el pago mensual
   const pagoMensual = (pagoint * amortpago) / (amortpago - 1);
-  console.log("pagoMensual :", pagoMensual);
+  // console.log("pagoMensual :", pagoMensual);
 
   let total = [];
 
@@ -29,7 +29,7 @@ const calculator = (form) => {
   let id = 0;
 
   for (let i = prestamo; i >= 0; i) {
-    if (i.toFixed(0) <= 0 && prestamo.toFixed(0) * 1 <= 0) {
+    if (i.toFixed(0) <= 0 || prestamo.toFixed(0) * 1 <= 0) {
       break;
     }
     //cuanto paga de interes y el total
