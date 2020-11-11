@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo} from "react";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 // TODO ADD ANIMATION
@@ -7,8 +7,10 @@ const ChartPie = (props) => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   let pago = data[0].value + data[1].value;
 
+
   let { balance, pago_mensual } = props.mortiData;
-  // const { precio } = props.precio;
+
+
   return (
     <div className='flex flex-col'>
       <ul className=' flex flex-col'>
