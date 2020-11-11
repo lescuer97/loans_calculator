@@ -31,7 +31,7 @@ const Mortgage = () => {
     precio: 100000,
     años: 30,
     ahorro: 20000,
-    interes: 2,
+    interes: 7,
     email: "",
   });
 
@@ -60,19 +60,22 @@ const Mortgage = () => {
     
 
     //normal data
-    // const normalData = calculator(data);
-    const normalData = wasm.mort_calculator(data);
+    const normalData = calculator(data);
+    // const normalData = wasm.mort_calculator(data);
     console.log(normalData);
 
+    // this is to not affect the original array so it's completed 
     const normalDataPop = _.clone(normalData).pop();
     console.log(normalDataPop)
 
     // calculates data with less price same year and interest
+    
     const data2 = _.clone(data);
     data2.prestamo = data2.prestamo * 0.8;
-    // const lessPrice = calculator(data2);
-    const lessPrice = wasm.mort_calculator(data2);
+    const lessPrice = calculator(data2);
+    // const lessPrice = wasm.mort_calculator(data2);
     // console.log(lessPrice);
+       // this is to not affect the original array so it's completed 
     const lessPricePop = _.clone(lessPrice).pop();
     // console.log(lessPricePop);
 
@@ -81,8 +84,9 @@ const Mortgage = () => {
 
     const data3 = _.clone(data);
     data3.anos = data3.anos * 0.8;
-    // const lessAnos = calculator(data3);
-    const lessAnos = wasm.mort_calculator(data3);
+    const lessAnos = calculator(data3);
+    // const lessAnos = wasm.mort_calculator(data3);
+       // this is to not affect the original array so it's completed 
     const lessAnosPop = _.clone(lessAnos).pop();
 
 
@@ -90,8 +94,9 @@ const Mortgage = () => {
     const data4 = _.clone(data);
     data4.anos = data4.anos * 0.8;
     data4.prestamo = data4.prestamo * 0.8;
-    // const lessEvery = calculator(data4);  
-    const lessEvery = wasm.mort_calculator(data4);
+    const lessEvery = calculator(data4);  
+    // const lessEvery = wasm.mort_calculator(data4);
+       // this is to not affect the original array so it's completed 
     const lessEveryPop = _.clone(lessEvery).pop();
 
     // // This is for the graphs

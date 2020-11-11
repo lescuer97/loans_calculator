@@ -29,8 +29,9 @@ const calculator = (form) => {
   let id = 0;
 
   for (let i = prestamo; i >= 0; i) {
-    if (i.toFixed(0) <= 0 || prestamo.toFixed(0) * 1 <= 0) {
-      break;
+    if (i.toFixed(2) <= 0.00 || prestamo.toFixed(2) * 1 <= 0.00) {
+    
+       return total;
     }
     //cuanto paga de interes y el total
     const pagoint = prestamo * (interes / 12);
@@ -44,6 +45,7 @@ const calculator = (form) => {
     prestamo = prestamo - menosBlc;
 
     mes++;
+    const gastoTotal = totalPagoAmor + pagoTotInt;
 
     let objMes = {
       balance: prestamo.toFixed(2),
@@ -53,7 +55,8 @@ const calculator = (form) => {
       pago_amor: menosBlc.toFixed(2),
       intereses_totales: pagoTotInt.toFixed(2),
       pago_total_amor: totalPagoAmor.toFixed(2),
-      gasto_total: totalPagoAmor + pagoTotInt,
+      gasto_total: gastoTotal.toFixed(2),
+
       id: id++,
     };
 
