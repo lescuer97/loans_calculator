@@ -31,7 +31,7 @@ const Mortgage = () => {
     precio: 100000,
     años: 30,
     ahorro: 20000,
-    interes: 3,
+    interes: 2,
     email: "",
   });
 
@@ -47,70 +47,78 @@ const Mortgage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     //TODO agregar que el ahorro no puede ser mas que el precio
-
+  setGraphdat(null);
+   setMortiData(null)
     const prestamoCalc = hip.precio - hip.ahorro;
+    // console.log("prestamo Calc: ",prestamoCalc);
     const data = {
       precio: hip.precio * 1,
       prestamo: prestamoCalc,
       anos: hip.años * 1,
-      interes: hip.interes * 1,
+      interes: hip.interes * 1 / 100,
     };
+    
 
     //normal data
     // const normalData = calculator(data);
     const normalData = wasm.mort_calculator(data);
+    console.log(normalData);
 
-    const normalDataPop = normalData.pop();
+    const normalDataPop = _.clone(normalData).pop();
+    console.log(normalDataPop)
 
     // calculates data with less price same year and interest
     const data2 = _.clone(data);
     data2.prestamo = data2.prestamo * 0.8;
     // const lessPrice = calculator(data2);
     const lessPrice = wasm.mort_calculator(data2);
-    const lessPricePop = lessPrice.pop();
+    // console.log(lessPrice);
+    const lessPricePop = _.clone(lessPrice).pop();
+    // console.log(lessPricePop);
 
+ 
     // calculates data with less years
 
     const data3 = _.clone(data);
     data3.anos = data3.anos * 0.8;
     // const lessAnos = calculator(data3);
     const lessAnos = wasm.mort_calculator(data3);
-    const lessAnosPop = lessAnos.pop();
-    console.log(lessAnosPop);
+    const lessAnosPop = _.clone(lessAnos).pop();
+
 
     // calculates data with less of everything
     const data4 = _.clone(data);
     data4.anos = data4.anos * 0.8;
     data4.prestamo = data4.prestamo * 0.8;
-    // const lessEvery = calculator(data4);
+    // const lessEvery = calculator(data4);  
     const lessEvery = wasm.mort_calculator(data4);
-    const lessEveryPop = lessEvery.pop();
+    const lessEveryPop = _.clone(lessEvery).pop();
 
-    // This is for the graphs
+    // // This is for the graphs
     setGraphdat([
       [
-        { name: "Amor Total", value: normalDataPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: normalDataPop.pago_total_amor * 1 },
         {
           name: "Interes Total",
           value: normalDataPop.intereses_totales * 1,
         },
       ],
       [
-        { name: "Amor Total", value: lessPricePop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: lessPricePop.pago_total_amor * 1 },
         {
           name: "Interes Total",
           value: lessPricePop.intereses_totales * 1,
         },
       ],
       [
-        { name: "Amor Total", value: lessAnosPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: lessAnosPop.pago_total_amor * 1 },
         {
           name: "Interes Total",
           value: lessAnosPop.intereses_totales * 1,
         },
       ],
       [
-        { name: "Amor Total", value: lessEveryPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: lessEveryPop.pago_total_amor * 1 },
         {
           name: "Interes Total",
           value: lessEveryPop.intereses_totales * 1,
@@ -140,6 +148,19 @@ const Mortgage = () => {
               placeholder='precio de casa'
               className='w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none'
             />
+
+            <input
+              type='range'
+              min={0}
+              max={2000000}
+              step={10000}
+              name='precio'
+              id='precio'
+              value={precio}
+              placeholder='cuanto pediras prestado?'
+              onChange={onChange}
+              className='w-100  py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none'
+            />
           </div>
 
           <div className='flex flex-col mt-2'>
@@ -148,6 +169,8 @@ const Mortgage = () => {
               htmlFor=''>
               Ahorro Aportado
             </label>
+
+            <div className=" flex flex-row mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700   focus:border-indigo-500 focus:outline-none">
             <input
               type='number'
               min={0}
@@ -157,14 +180,17 @@ const Mortgage = () => {
               value={ahorro}
               placeholder='cuanto pediras prestado?'
               onChange={onChange}
-              className='w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none'
+              className='text-gray-800 font-semibold w-4/5'
             />
+            <p className="w-1/5 text-right">{ (ahorro * 100 / precio).toFixed(2) }%</p>
+
+            </div>
 
             <input
               type='range'
               min={0}
               max={precio}
-              step={10000}
+              step={1000}
               name='ahorro'
               id='ahorro'
               value={ahorro}
@@ -219,7 +245,7 @@ const Mortgage = () => {
               type='range'
               min={0}
               max={30}
-              step={1}
+              step={0.1}
               name='interes'
               id='interes'
               value={interes}
