@@ -1,6 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 const Header = (props) => {
+
+  useEffect(() => {
+ //Javascript to toggle the menu
+		document.getElementById('nav-toggle').onclick = function(){
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+  },[]);
+ 
   return (
     <>
       <nav className='flex items-center justify-between flex-wrap bg-gray-800 p-6 fixed w-full z-10 top-0'>
