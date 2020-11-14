@@ -1,0 +1,16 @@
+.card {
+  @apply my-3;
+  @apply border-solid;
+  @apply border;
+  @apply border-gray-500;
+  @apply rounded-md;
+}
+.card-tittle {
+  @apply text-xl;
+  @apply border-t-0;
+  @apply border-b;
+  @apply border-gray-500;
+  @apply text-center;
+  @apply border-solid;
+  @apply py-2;
+}
