@@ -1,10 +1,21 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import _ from "lodash";
+import ResultContext from '../../context/result/ResultContext';
+
 import calculator from "../../util/calculator";
+import converter from "../../util/converter";
+
 import Table from "../pages/Table";
 import ChartPie from "../charts/ChartPie";
 
 const Mortgage = () => {
+let history = useHistory();
+    const resultContext = useContext(ResultContext);
+  const {post_results} = resultContext;
+
+
   const [wasm, setWasm] = useState(null);
   // for entire data table
   const [mortiTable, setMortiTable] = useState(null);
@@ -15,6 +26,8 @@ const Mortgage = () => {
   // para grafico
   const [graphdat, setGraphdat] = useState(null);
 
+
+  const [prec, setPrec] = useState(null)
   // loads wasm to the app for calculation
   const loadedWasm = async () => {
     try {
@@ -49,8 +62,11 @@ const Mortgage = () => {
     //TODO agregar que el ahorro no puede ser mas que el precio
   setGraphdat(null);
    setMortiData(null)
+   setPrec(null);
+
     const prestamoCalc = hip.precio - hip.ahorro;
     // console.log("prestamo Calc: ",prestamoCalc);
+   
     const data = {
       precio: hip.precio * 1,
       prestamo: prestamoCalc,
@@ -60,82 +76,98 @@ const Mortgage = () => {
     
 
     //normal data
-    const normalData = calculator(data);
-    // const normalData = wasm.mort_calculator(data);
-    console.log(normalData);
+    // const normalData = calculator(data);
+    const normalData = wasm.mort_calculator(data);
+    // console.log(normalData);
 
     // this is to not affect the original array so it's completed 
-    const normalDataPop = _.clone(normalData).pop();
+    const graphNormalData =  _.clone(normalData).pop();
+    const normalDataPop = converter( _.clone(graphNormalData));
+
     console.log(normalDataPop)
+    // console.log(graphNormalData)
 
     // calculates data with less price same year and interest
     
     const data2 = _.clone(data);
     data2.prestamo = data2.prestamo * 0.8;
-    const lessPrice = calculator(data2);
-    // const lessPrice = wasm.mort_calculator(data2);
+    // const lessPrice = calculator(data2);
+    const lessPrice = wasm.mort_calculator(data2);
     // console.log(lessPrice);
        // this is to not affect the original array so it's completed 
-    const lessPricePop = _.clone(lessPrice).pop();
-    // console.log(lessPricePop);
+       const graphLessPrice =  _.clone(lessPrice).pop();
+    const lessPricePop = converter( _.clone(graphLessPrice));
 
- 
     // calculates data with less years
 
     const data3 = _.clone(data);
     data3.anos = data3.anos * 0.8;
-    const lessAnos = calculator(data3);
-    // const lessAnos = wasm.mort_calculator(data3);
+    // const lessAnos = calculator(data3);
+    const lessAnos = wasm.mort_calculator(data3);
        // this is to not affect the original array so it's completed 
-    const lessAnosPop = _.clone(lessAnos).pop();
+       const graphLessAnos = _.clone(lessAnos).pop();
+    const lessAnosPop = converter(_.clone(graphLessAnos));
 
 
     // calculates data with less of everything
     const data4 = _.clone(data);
     data4.anos = data4.anos * 0.8;
     data4.prestamo = data4.prestamo * 0.8;
-    const lessEvery = calculator(data4);  
-    // const lessEvery = wasm.mort_calculator(data4);
+    // const lessEvery = calculator(data4);  
+    const lessEvery = wasm.mort_calculator(data4);
        // this is to not affect the original array so it's completed 
-    const lessEveryPop = _.clone(lessEvery).pop();
+    const graphLessEvery =  _.clone(lessEvery).pop()
+    
+    const lessEveryPop =converter( _.clone(graphLessEvery));
+    // lessEveryPop.balance =  lessEveryPop.balance.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
+    setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
     // // This is for the graphs
     setGraphdat([
       [
-        { name: "Prestamo Total", value: normalDataPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
         {
           name: "Interes Total",
-          value: normalDataPop.intereses_totales * 1,
+          value:  graphNormalData.intereses_totales * 1 ,
         },
       ],
       [
-        { name: "Prestamo Total", value: lessPricePop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1  },
         {
           name: "Interes Total",
-          value: lessPricePop.intereses_totales * 1,
+          value: graphLessPrice.intereses_totales * 1 ,
         },
       ],
       [
-        { name: "Prestamo Total", value: lessAnosPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1  },
         {
           name: "Interes Total",
-          value: lessAnosPop.intereses_totales * 1,
+          value: graphLessAnos.intereses_totales * 1 ,
         },
       ],
       [
-        { name: "Prestamo Total", value: lessEveryPop.pago_total_amor * 1 },
+        { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1  },
         {
           name: "Interes Total",
-          value: lessEveryPop.intereses_totales * 1,
+          value: graphLessEvery.intereses_totales * 1 ,
         },
       ],
     ]);
     // This is for the final data
     setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
+
+    setTimeout(()=> {history.push('/result');},[100])
+
   };
+    useEffect(() => {
+ post_results([graphdat, mortiData, prec]);
+
+  }, [graphdat, mortiData, prec]);
+
   return (
     <>
-      <div className='max-w-sm border border-solid '>
+    <div className=" flex  flex-col md:flex md:flex-row">
+      <div className='md:w-2/5 max-w-sm border border-solid '>
         <form className='p-6 flex flex-col justify-center' onSubmit={onSubmit}>
           <h1 className='text-gray-800 font-semibold '> Calcula tu Hipoteca</h1>
           <div className='flex flex-col'>
@@ -249,7 +281,7 @@ const Mortgage = () => {
             <input
               type='range'
               min={0}
-              max={30}
+              max={25}
               step={0.1}
               name='interes'
               id='interes'
@@ -284,68 +316,10 @@ const Mortgage = () => {
         </form>
       </div>
 
-      <div className='mt-4 flex flex-row'>
-        <div>
-          {!graphdat ? (
-            <div></div>
-          ) : (
-            <>
-              <p className='h3 text-center '>Normal Data</p>
-              <ChartPie
-                graphdat={graphdat[0]}
-                mortiData={mortiData[0]}
-                precio={hip.precio}
-              />
-            </>
-          )}
-        </div>
-        <div>
-          {!graphdat ? (
-            <div></div>
-          ) : (
-            <>
-              <h3 className='h3 text-center '>Less loan amount</h3>{" "}
-              <ChartPie
-                graphdat={graphdat[1]}
-                mortiData={mortiData[1]}
-                precio={hip.precio}
-              />{" "}
-            </>
-          )}
-        </div>
-        <div className=''>
-          {!graphdat ? (
-            <div></div>
-          ) : (
-            <>
-              {" "}
-              <h3 className='h3 text-center '>Less years of mortgage</h3>{" "}
-              <ChartPie
-                graphdat={graphdat[2]}
-                mortiData={mortiData[2]}
-                precio={hip.precio}
-              />
-            </>
-          )}
-        </div>
-        <div className=''>
-          {!graphdat ? (
-            <div></div>
-          ) : (
-            <>
-              <h3 className='h3 text-center '>
-                Less loan amount and less years
-              </h3>{" "}
-              <ChartPie
-                graphdat={graphdat[3]}
-                mortiData={mortiData[3]}
-                precio={hip.precio}
-              />{" "}
-            </>
-          )}
-        </div>
+     
+     
       </div>
-      {/* {!mortiTable ? <div></div> : <Table mort={mortiTable} />} */}
+ 
     </>
   );
 };
