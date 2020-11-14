@@ -1,0 +1,11 @@
+// TYPES QUE MANEJAN EL ESTADO Y REDUCERS
+
+// GET
+export const GET_RESULT = "GET_RESULT";
+
+
+// POST
+export const POST_RESULT = "POST_RESULT";
+
+
+
