@@ -13,4 +13,5 @@
   @apply text-center;
   @apply border-solid;
   @apply py-2;
+  @apply px-4;
 }
