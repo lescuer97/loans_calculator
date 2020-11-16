@@ -4,15 +4,16 @@ import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import ResultContext from '../../context/result/ResultContext';
 
-import calculator from "../../util/calculator";
+// import calculator from "../../util/calculator";
 import converter from "../../util/converter";
+import BarCh from '../charts/BarCh';
 
-import Table from "../pages/Table";
-import ChartPie from "../charts/ChartPie";
+// import Table from "../pages/Table";
+// import ChartPie from "../charts/ChartPie";
 
 const Mortgage = () => {
-let history = useHistory();
-    const resultContext = useContext(ResultContext);
+  let history = useHistory();
+  const resultContext = useContext(ResultContext);
   const {post_results} = resultContext;
 
 
@@ -25,6 +26,7 @@ let history = useHistory();
 
   // para grafico
   const [graphdat, setGraphdat] = useState(null);
+  const [dat, setDat] = useState(null);
 
 
   const [prec, setPrec] = useState(null)
@@ -83,9 +85,8 @@ let history = useHistory();
     // this is to not affect the original array so it's completed 
     const graphNormalData =  _.clone(normalData).pop();
     const normalDataPop = converter( _.clone(graphNormalData));
+  
 
-    console.log(normalDataPop)
-    // console.log(graphNormalData)
 
     // calculates data with less price same year and interest
     
@@ -155,8 +156,8 @@ let history = useHistory();
     ]);
     // This is for the final data
     setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
-
-    setTimeout(()=> {history.push('/result');},[100])
+    setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
+    // setTimeout(()=> {history.push('/result');},[100])
 
   };
     useEffect(() => {
@@ -315,11 +316,17 @@ let history = useHistory();
           </button>
         </form>
       </div>
-
-     
-     
-      </div>
- 
+   
+     {!dat ? (
+            <div></div>
+          ) : (
+            
+            <div className="card md:mt-0">
+              <BarCh  mortiData={dat}  />
+              </div>
+            
+          )}
+             </div>
     </>
   );
 };

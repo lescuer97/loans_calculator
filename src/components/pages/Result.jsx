@@ -1,5 +1,6 @@
 import React, {useContext, useEffect} from 'react'
 import ResultContext from '../../context/result/ResultContext';
+import BarCh from '../charts/BarCh';
 
 import ChartPie from "../charts/ChartPie";
 import Table from "../pages/Table";
@@ -9,33 +10,28 @@ const Result = () => {
   const {result} = resultContext;
   console.log(result);
 
-// useEffect(() => {
-// const data = get_results();
-// console.log(data.result);
-// return data;
-// },[])
 
 if (!result[0]) {
   return (
     <div>
       <h1>
-      We have no data from you</h1></div>
+      We have no data for you</h1></div>
   )
 } else {
 
   return (
     <div>
-  <div className=" flex  flex-col md:flex md:flex-row">
+  <div className=" flex flex-col md:flex md:flex-row">
    
       <div className='mt-4 mx-8 flex flex-wrap justify-center'>
         <div>
           {!result[0] ? (
             <div></div>
           ) : (
-            <div className=" card md:mt-0" >
+            <div className="card md:mt-0" >
               <p className='card-tittle'>
                 <strong>
-                    Tus Datos originales
+                  Normal Data
                 </strong>
              </p>
               <ChartPie
@@ -52,12 +48,15 @@ if (!result[0]) {
           ) : (
             
             <div className="card md:mt-0">
-              <h3 className='card-tittle'> <strong> Less loan amount</strong></h3>{" "}
+              <h3 className='card-tittle'> <strong>Less Loan</strong></h3>{" "}
               <ChartPie
                 graphdat={result[0][1]}
                 mortiData={result[1][1]}
                 precio={result[2]}
               />{" "}
+
+            
+            
               </div>
             
           )}
@@ -66,12 +65,11 @@ if (!result[0]) {
           {!result[0] ? (
             <div></div>
           ) : (
- <div className="card md:mt-0">
+               <div className="card md:mt-0">
               {" "}
               <h3 className='card-tittle'>
               
-              <strong>Less years of mortgage</strong></h3>{" "}
-
+              <strong>Less Years</strong></h3>{" "}
               
               <ChartPie
                 graphdat={result[0][2]}
@@ -85,9 +83,9 @@ if (!result[0]) {
           {!result[0] ? (
             <div></div>
           ) : (
-            <div className="card md:mt-0">
+            <div className="card md:mt-0 ">
               <h3 className='card-tittle'>
-                <strong> Less loan amount and less years</strong>
+                <strong> Less loan and  years</strong>
                
               </h3>{" "}
               <ChartPie
