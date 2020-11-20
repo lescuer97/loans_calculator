@@ -1,8 +1,12 @@
-import React, { useMemo} from "react";
-// import { PieChart, Pie, Cell, Legend, Tooltip,  BarChart, Bar,  XAxis, YAxis, CartesianGrid } from "recharts";
+import React, { useMemo, useEffect} from "react";
+import { PieChart, Pie, Cell, Legend, Tooltip,  BarChart, Bar,  XAxis, YAxis, CartesianGrid } from "recharts";
 // TODO ADD ANIMATION
 const ChartPie = (props) => {
-  const data = useMemo(() => props.graphdat, [props.graphdat]);
+  
+// useEffect(() => {})
+
+  const data = useMemo(() =>  props.graphdat, [props.graphdat]);
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 
@@ -41,8 +45,8 @@ const ChartPie = (props) => {
         </div>
       </ul>
       
-    {/* <div className="mt-3">
-      <PieChart width={400} height={350}>
+    <div className="mt-3">
+     {/* <PieChart width={400} height={350}>
         <Pie dataKey='value' nameKey="name" data={data} legendType='circle' label labelLine>
           {data.map((entry, index) => {
             return <Cell key={`cell-${index}`} fill={COLORS[index]} />;
@@ -51,12 +55,13 @@ const ChartPie = (props) => {
 
         <Legend verticalAlign='bottom' height={28} />
         <Tooltip />;
-      </PieChart>
-      <p>
+      </PieChart>   */}
+ 
+      {/* <p>
         Pago Total:{" "}
         {pago.toLocaleString("es-ES", { style: "currency", currency: "EUR" })}
-      </p>
-    </div> */}
+      </p> */}
+    </div>
     </div>
   );
 };

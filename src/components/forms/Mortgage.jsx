@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import _ from "lodash";
@@ -9,7 +9,7 @@ import converter from "../../util/converter";
 import BarCh from '../charts/BarCh';
 
 // import Table from "../pages/Table";
-// import ChartPie from "../charts/ChartPie";
+import ChartPie from "../charts/ChartPie";
 
 const Mortgage = () => {
   let history = useHistory();
@@ -18,6 +18,7 @@ const Mortgage = () => {
 
 
   const [wasm, setWasm] = useState(null);
+
   // for entire data table
   const [mortiTable, setMortiTable] = useState(null);
 
@@ -53,11 +54,41 @@ const Mortgage = () => {
 
   const { precio, ahorro, años, interes, email } = hip;
 
+  // TODO PONER EL CUANTO PAGA DE MES A MES EN GRANDE.
+  // TODO PONER COSA PARA CREAR REPORTE
+
   const onChange = (e) => {
     setHip({
       ...hip,
       [e.target.name]: e.target.value,
     });
+   
+     const prestamoCalc = hip.precio - hip.ahorro;
+
+    const data = {
+      precio: hip.precio * 1,
+      prestamo: prestamoCalc,
+      anos: hip.años * 1,
+      interes: hip.interes * 1 / 100,
+    };
+
+      const normalData = wasm.mort_calculator(data);
+
+          // this is to not affect the original array so it's completed 
+    const graphNormalData =  _.clone(normalData).pop();
+    const normalDataPop = converter( _.clone(graphNormalData));
+
+    setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
+    setMortiData(normalDataPop);
+
+    setGraphdat(
+              { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
+        {
+          name: "Interes Total",
+          value:  graphNormalData.intereses_totales * 1 ,
+        },
+    )
+
   };
 
   const onSubmit = (e) => {
@@ -89,82 +120,82 @@ const Mortgage = () => {
   
 
 
-    // calculates data with less price same year and interest
+    // // calculates data with less price same year and interest
     
-    const data2 = _.clone(data);
-    data2.prestamo = data2.prestamo * 0.8;
-    // const lessPrice = calculator(data2);
-    const lessPrice = wasm.mort_calculator(data2);
-    // console.log(lessPrice);
-       // this is to not affect the original array so it's completed 
-       const graphLessPrice =  _.clone(lessPrice).pop();
-    const lessPricePop = converter( _.clone(graphLessPrice));
+    // const data2 = _.clone(data);
+    // data2.prestamo = data2.prestamo * 0.8;
+    // // const lessPrice = calculator(data2);
+    // const lessPrice = wasm.mort_calculator(data2);
+    // // console.log(lessPrice);
+    //    // this is to not affect the original array so it's completed 
+    //    const graphLessPrice =  _.clone(lessPrice).pop();
+    // const lessPricePop = converter( _.clone(graphLessPrice));
 
-    // calculates data with less years
+    // // calculates data with less years
 
-    const data3 = _.clone(data);
-    data3.anos = data3.anos * 0.8;
-    // const lessAnos = calculator(data3);
-    const lessAnos = wasm.mort_calculator(data3);
-       // this is to not affect the original array so it's completed 
-       const graphLessAnos = _.clone(lessAnos).pop();
-    const lessAnosPop = converter(_.clone(graphLessAnos));
+    // const data3 = _.clone(data);
+    // data3.anos = data3.anos * 0.8;
+    // // const lessAnos = calculator(data3);
+    // const lessAnos = wasm.mort_calculator(data3);
+    //    // this is to not affect the original array so it's completed 
+    //    const graphLessAnos = _.clone(lessAnos).pop();
+    // const lessAnosPop = converter(_.clone(graphLessAnos));
 
 
-    // calculates data with less of everything
-    const data4 = _.clone(data);
-    data4.anos = data4.anos * 0.8;
-    data4.prestamo = data4.prestamo * 0.8;
-    // const lessEvery = calculator(data4);  
-    const lessEvery = wasm.mort_calculator(data4);
-       // this is to not affect the original array so it's completed 
-    const graphLessEvery =  _.clone(lessEvery).pop()
+    // // calculates data with less of everything
+    // const data4 = _.clone(data);
+    // data4.anos = data4.anos * 0.8;
+    // data4.prestamo = data4.prestamo * 0.8;
+    // // const lessEvery = calculator(data4);  
+    // const lessEvery = wasm.mort_calculator(data4);
+    //    // this is to not affect the original array so it's completed 
+    // const graphLessEvery =  _.clone(lessEvery).pop()
     
-    const lessEveryPop =converter( _.clone(graphLessEvery));
+    // const lessEveryPop =converter( _.clone(graphLessEvery));
     // lessEveryPop.balance =  lessEveryPop.balance.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
-    setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
+    // setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
     // // This is for the graphs
-    setGraphdat([
-      [
-        { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
-        {
-          name: "Interes Total",
-          value:  graphNormalData.intereses_totales * 1 ,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1  },
-        {
-          name: "Interes Total",
-          value: graphLessPrice.intereses_totales * 1 ,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1  },
-        {
-          name: "Interes Total",
-          value: graphLessAnos.intereses_totales * 1 ,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1  },
-        {
-          name: "Interes Total",
-          value: graphLessEvery.intereses_totales * 1 ,
-        },
-      ],
-    ]);
-    // This is for the final data
-    setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
-    setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
+    // setGraphdat([
+    //   [
+    //     { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
+    //     {
+    //       name: "Interes Total",
+    //       value:  graphNormalData.intereses_totales * 1 ,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1  },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessPrice.intereses_totales * 1 ,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1  },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessAnos.intereses_totales * 1 ,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1  },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessEvery.intereses_totales * 1 ,
+    //     },
+    //   ],
+    // ]);
+    // // This is for the final data
+    // setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
+    // setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
     // setTimeout(()=> {history.push('/result');},[50])
 
   };
-    useEffect(() => {
- post_results([graphdat, mortiData, prec]);
+//     useEffect(() => {
+//  post_results([graphdat, mortiData, prec]);
 
-  }, [graphdat, mortiData, prec]);
+//   }, [graphdat, mortiData, prec]);
 
   return (
     <>
@@ -317,16 +348,22 @@ const Mortgage = () => {
           </button>
         </form>
       </div>
-   
-     {/* {!dat ? (
+    {!prec ? (
             <div></div>
           ) : (
-            
-            <div className="card md:mt-0">
-              <BarCh  mortiData={dat}  />
-              </div>
-            
-          )} */}
+            <div className="card md:mt-0" >
+              <p className='card-tittle'>
+                <strong>
+                  Normal Data
+                </strong>
+             </p>
+              <ChartPie
+                graphdat={graphdat}
+                mortiData={mortiData}
+                precio={prec}
+              />
+            </div>
+          )}
              </div>
     </>
   );
