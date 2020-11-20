@@ -1,5 +1,5 @@
 import React, { useMemo} from "react";
-import { PieChart, Pie, Cell, Legend, Tooltip,  BarChart, Bar,  XAxis, YAxis, CartesianGrid } from "recharts";
+// import { PieChart, Pie, Cell, Legend, Tooltip,  BarChart, Bar,  XAxis, YAxis, CartesianGrid } from "recharts";
 // TODO ADD ANIMATION
 const ChartPie = (props) => {
   const data = useMemo(() => props.graphdat, [props.graphdat]);
@@ -10,9 +10,9 @@ const ChartPie = (props) => {
   let { balance, pago_mensual, gasto_total, pago_total_amor, intereses_totales,  } = props.mortiData;
 
   return (
-    <div className='flex flex-col'>
-     
-      <ul className=' list-inside flex flex-col'>
+    <div className='flex flex-col py-5'>
+   
+      <ul className='list-inside flex flex-col'>
         <div className="mb-2">
         <div className="bg-green-300">
         <li className="flex justify-between ml-2" >
@@ -40,8 +40,9 @@ const ChartPie = (props) => {
         </div>
         </div>
       </ul>
-    <div className="my-2">
-      <PieChart width={280} height={240}>
+      
+    {/* <div className="mt-3">
+      <PieChart width={400} height={350}>
         <Pie dataKey='value' nameKey="name" data={data} legendType='circle' label labelLine>
           {data.map((entry, index) => {
             return <Cell key={`cell-${index}`} fill={COLORS[index]} />;
@@ -49,13 +50,13 @@ const ChartPie = (props) => {
         </Pie>
 
         <Legend verticalAlign='bottom' height={28} />
-        {/* <Tooltip />; */}
+        <Tooltip />;
       </PieChart>
-      {/* <p>
+      <p>
         Pago Total:{" "}
         {pago.toLocaleString("es-ES", { style: "currency", currency: "EUR" })}
-      </p> */}
-    </div>
+      </p>
+    </div> */}
     </div>
   );
 };

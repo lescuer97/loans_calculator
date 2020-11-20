@@ -41,6 +41,7 @@ const Mortgage = () => {
   };
 
   loadedWasm();
+  
 
   const [hip, setHip] = useState({
     precio: 100000,
@@ -61,7 +62,7 @@ const Mortgage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    //TODO agregar que el ahorro no puede ser mas que el precio
+
   setGraphdat(null);
    setMortiData(null)
    setPrec(null);
@@ -157,7 +158,7 @@ const Mortgage = () => {
     // This is for the final data
     setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
     setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
-    // setTimeout(()=> {history.push('/result');},[100])
+    // setTimeout(()=> {history.push('/result');},[50])
 
   };
     useEffect(() => {
@@ -317,7 +318,7 @@ const Mortgage = () => {
         </form>
       </div>
    
-     {!dat ? (
+     {/* {!dat ? (
             <div></div>
           ) : (
             
@@ -325,7 +326,7 @@ const Mortgage = () => {
               <BarCh  mortiData={dat}  />
               </div>
             
-          )}
+          )} */}
              </div>
     </>
   );
