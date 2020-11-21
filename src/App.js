@@ -6,12 +6,13 @@ import Result from "./components/pages/Result";
 
 import ResultState from './context/result/ResultState';
 function App() {
-  // TODO AGREGAR VARIACIONES DEL CALCULO
+  // TODO AGREGAR COMPONENTE DE ADDS
+
+  // TODO TRATAR DE DISEÑAR MEJOR FUCKKK
+  
   return (
     <ResultState>
-    <div className='App'> 
-    
-    
+    <div className='App'>  
     <Router>
         <Header>
             <Switch>

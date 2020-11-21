@@ -55,7 +55,7 @@ const Mortgage = () => {
   const { precio, ahorro, años, interes, email } = hip;
 
   // TODO PONER EL CUANTO PAGA DE MES A MES EN GRANDE.
-  // TODO PONER COSA PARA CREAR REPORTE
+  // TODO PONER BOTOS PARA CREAR REPORTE
 
   const onChange = (e) => {
     setHip({
