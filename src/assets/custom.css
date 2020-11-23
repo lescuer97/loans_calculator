@@ -2,14 +2,16 @@
   @apply my-3;
   @apply border-solid;
   @apply border;
-  @apply border-gray-300;
+  @apply border-gray-400;
   @apply rounded-md;
+
+  /* @apply max-h-full; */
 }
 .card-tittle {
   @apply text-xl;
   @apply border-t-0;
   @apply border-b;
-  @apply border-gray-300;
+  @apply border-gray-400;
   @apply text-center;
   @apply border-solid;
   @apply py-2;
