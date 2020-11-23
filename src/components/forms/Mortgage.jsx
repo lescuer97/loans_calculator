@@ -23,14 +23,24 @@ const Mortgage = () => {
   const [mortiTable, setMortiTable] = useState(null);
 
   // para datos legible
-  const [mortiData, setMortiData] = useState(null);
+  const [mortiData, setMortiData] = useState(
+{balance: "90.000,00 €",
+mes:360,
+pago_mensual:"598,77 €",
+pago_interes:"3,47 €",
+pago_amor:"595,30 €",
+intereses_totales:"125.558,01 €",
+pago_total_amor:"90.000,00 €",
+gasto_total:"215.558,01 €",
+id:360,
+});
 
   // para grafico
   const [graphdat, setGraphdat] = useState(null);
   const [dat, setDat] = useState(null);
 
 
-  const [prec, setPrec] = useState(null)
+  const [prec, setPrec] = useState("110.000,00 €")
   // loads wasm to the app for calculation
   const loadedWasm = async () => {
     try {
@@ -55,7 +65,7 @@ const Mortgage = () => {
   const { precio, ahorro, años, interes, email } = hip;
 
   // TODO PONER EL CUANTO PAGA DE MES A MES EN GRANDE.
-  // TODO PONER BOTOS PARA CREAR REPORTE
+  // TODO PONER BOTONES PARA CREAR REPORTE
 
   const onChange = (e) => {
     setHip({
