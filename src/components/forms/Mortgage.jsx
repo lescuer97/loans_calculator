@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import _ from "lodash";
@@ -23,17 +23,7 @@ const Mortgage = () => {
   const [mortiTable, setMortiTable] = useState(null);
 
   // para datos legible
-  const [mortiData, setMortiData] = useState(
-{balance: "90.000,00 €",
-mes:360,
-pago_mensual:"598,77 €",
-pago_interes:"3,47 €",
-pago_amor:"595,30 €",
-intereses_totales:"125.558,01 €",
-pago_total_amor:"90.000,00 €",
-gasto_total:"215.558,01 €",
-id:360,
-});
+  const [mortiData, setMortiData] = useState(null);
 
   // para grafico
   const [graphdat, setGraphdat] = useState(null);
@@ -58,7 +48,7 @@ id:360,
     precio: 100000,
     años: 30,
     ahorro: 20000,
-    interes: 7,
+    interes: 2,
     email: "",
   });
 
@@ -66,48 +56,27 @@ id:360,
 
   // TODO PONER EL CUANTO PAGA DE MES A MES EN GRANDE.
   // TODO PONER BOTONES PARA CREAR REPORTE
-// TODO CAMBIAR DE NUEVO A EL LINK QUE PERMITA ASI QUE NO HAYA PROBLEMA EN EL LOADING DEL STATE
-//  TODO CHECKEAR PROBLEMAS CON 0 EN PRECIO Y AHORRO (HACER UN RETURN)
+
+  // TODO CHECKEAR PROBLEMAS CON 0 EN PRECIO Y AHORRO (HACER UN RETURN)
+
   const onChange = (e) => {
     setHip({
       ...hip,
       [e.target.name]: e.target.value,
     });
-   
-     const prestamoCalc = hip.precio - hip.ahorro;
-
-    const data = {
-      precio: hip.precio * 1,
-      prestamo: prestamoCalc,
-      anos: hip.años * 1,
-      interes: hip.interes * 1 / 100,
-    };
-
-      const normalData = wasm.mort_calculator(data);
-
-          // this is to not affect the original array so it's completed 
-    const graphNormalData =  _.clone(normalData).pop();
-    const normalDataPop = converter( _.clone(graphNormalData));
-
-    setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
-    setMortiData(normalDataPop);
-
-    setGraphdat(
-              { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
-        {
-          name: "Interes Total",
-          value:  graphNormalData.intereses_totales * 1 ,
-        },
-    )
-
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
   setGraphdat(null);
-   setMortiData(null)
-   setPrec(null);
+  setMortiData(null)
+  setPrec(null);
+
+   if (hip.precio === "0" && hip.ahorro > hip.precio) {
+     console.log("Error!");
+     return;
+   }
 
     const prestamoCalc = hip.precio - hip.ahorro;
     // console.log("prestamo Calc: ",prestamoCalc);
@@ -131,82 +100,82 @@ id:360,
   
 
 
-    // // calculates data with less price same year and interest
+    // calculates data with less price same year and interest
     
-    // const data2 = _.clone(data);
-    // data2.prestamo = data2.prestamo * 0.8;
-    // // const lessPrice = calculator(data2);
-    // const lessPrice = wasm.mort_calculator(data2);
-    // // console.log(lessPrice);
-    //    // this is to not affect the original array so it's completed 
-    //    const graphLessPrice =  _.clone(lessPrice).pop();
-    // const lessPricePop = converter( _.clone(graphLessPrice));
+    const data2 = _.clone(data);
+    data2.prestamo = data2.prestamo * 0.8;
+    // const lessPrice = calculator(data2);
+    const lessPrice = wasm.mort_calculator(data2);
+    // console.log(lessPrice);
+       // this is to not affect the original array so it's completed 
+    const graphLessPrice =  _.clone(lessPrice).pop();
+    const lessPricePop = converter( _.clone(graphLessPrice));
 
-    // // calculates data with less years
+    // calculates data with less years
 
-    // const data3 = _.clone(data);
-    // data3.anos = data3.anos * 0.8;
-    // // const lessAnos = calculator(data3);
-    // const lessAnos = wasm.mort_calculator(data3);
-    //    // this is to not affect the original array so it's completed 
-    //    const graphLessAnos = _.clone(lessAnos).pop();
-    // const lessAnosPop = converter(_.clone(graphLessAnos));
+    const data3 = _.clone(data);
+    data3.anos = data3.anos * 0.8;
+    // const lessAnos = calculator(data3);
+    const lessAnos = wasm.mort_calculator(data3);
+       // this is to not affect the original array so it's completed 
+       const graphLessAnos = _.clone(lessAnos).pop();
+    const lessAnosPop = converter(_.clone(graphLessAnos));
 
 
-    // // calculates data with less of everything
-    // const data4 = _.clone(data);
-    // data4.anos = data4.anos * 0.8;
-    // data4.prestamo = data4.prestamo * 0.8;
-    // // const lessEvery = calculator(data4);  
-    // const lessEvery = wasm.mort_calculator(data4);
-    //    // this is to not affect the original array so it's completed 
-    // const graphLessEvery =  _.clone(lessEvery).pop()
+    // calculates data with less of everything
+    const data4 = _.clone(data);
+    data4.anos = data4.anos * 0.8;
+    data4.prestamo = data4.prestamo * 0.8;
+    // const lessEvery = calculator(data4);  
+    const lessEvery = wasm.mort_calculator(data4);
+       // this is to not affect the original array so it's completed 
+    const graphLessEvery =  _.clone(lessEvery).pop()
     
-    // const lessEveryPop =converter( _.clone(graphLessEvery));
-    // lessEveryPop.balance =  lessEveryPop.balance.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+    const lessEveryPop =converter( _.clone(graphLessEvery));
+    lessEveryPop.balance =  lessEveryPop.balance.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
-    // setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
-    // // This is for the graphs
-    // setGraphdat([
-    //   [
-    //     { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
-    //     {
-    //       name: "Interes Total",
-    //       value:  graphNormalData.intereses_totales * 1 ,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1  },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessPrice.intereses_totales * 1 ,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1  },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessAnos.intereses_totales * 1 ,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1  },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessEvery.intereses_totales * 1 ,
-    //     },
-    //   ],
-    // ]);
-    // // This is for the final data
-    // setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
-    // setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
-    // setTimeout(()=> {history.push('/result');},[50])
+    setPrec((hip.precio * 1).toLocaleString("es-ES", { style: "currency", currency: "EUR" }));
+    // This is for the graphs
+    setGraphdat([
+      [
+        { name: "Prestamo Total", value:  graphNormalData.pago_total_amor * 1  },
+        {
+          name: "Interes Total",
+          value:  graphNormalData.intereses_totales * 1 ,
+        },
+      ],
+      [
+        { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1  },
+        {
+          name: "Interes Total",
+          value: graphLessPrice.intereses_totales * 1 ,
+        },
+      ],
+      [
+        { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1  },
+        {
+          name: "Interes Total",
+          value: graphLessAnos.intereses_totales * 1 ,
+        },
+      ],
+      [
+        { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1  },
+        {
+          name: "Interes Total",
+          value: graphLessEvery.intereses_totales * 1 ,
+        },
+      ],
+    ]);
+    // This is for the final data
+    setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
+    setDat([graphNormalData,graphLessPrice,graphLessPrice,graphLessEvery]);
+    setTimeout(()=> {history.push('/result');},[50])
 
   };
-//     useEffect(() => {
-//  post_results([graphdat, mortiData, prec]);
+    useEffect(() => {
+ post_results([graphdat, mortiData, prec]);
 
-//   }, [graphdat, mortiData, prec]);
+  }, [graphdat, mortiData, prec]);
 
   return (
     <>
@@ -359,7 +328,7 @@ id:360,
           </button>
         </form>
       </div>
-    {!prec ? (
+    {/* {!prec ? (
             <div></div>
           ) : (
             <div className="card md:mt-0" >
@@ -374,7 +343,7 @@ id:360,
                 precio={prec}
               />
             </div>
-          )}
+          )} */}
              </div>
     </>
   );

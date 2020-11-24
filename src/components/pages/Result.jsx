@@ -28,7 +28,9 @@ if (!result[0]) {
           {!result[0] ? (
             <div></div>
           ) : (
-            <div className="card md:mt-0" >
+            <div className=" flex md:flex-row">
+
+            <div className="card md:mt-0 md:mx-3 px-3" >
               <p className='card-tittle'>
                 <strong>
                   Normal Data
@@ -40,14 +42,8 @@ if (!result[0]) {
                 precio={result[2]}
               />
             </div>
-          )}
-        </div>
-        <div>
-          {!result[0] ? (
-            <div></div>
-          ) : (
-            
-            <div className="card md:mt-0">
+
+            <div className="card md:mt-0 md:mx-3 px-3">
               <h3 className='card-tittle'> <strong>Less Loan</strong></h3>{" "}
               <ChartPie
                 graphdat={result[0][1]}
@@ -55,17 +51,9 @@ if (!result[0]) {
                 precio={result[2]}
               />{" "}
 
-            
-            
               </div>
-            
-          )}
-        </div>
-        <div className=''>
-          {!result[0] ? (
-            <div></div>
-          ) : (
-               <div className="card md:mt-0">
+
+            <div className="card md:mt-0 md:mx-3 px-3">
               {" "}
               <h3 className='card-tittle'>
               
@@ -77,13 +65,8 @@ if (!result[0]) {
                 precio={result[2]}
               />
             </div>
-          )}
-        </div>
-        <div className=''>
-          {!result[0] ? (
-            <div></div>
-          ) : (
-            <div className="card md:mt-0 ">
+
+          <div className="card md:mt-0 md:mx-3 px-3 ">
               <h3 className='card-tittle'>
                 <strong> Less loan and  years</strong>
                
@@ -94,10 +77,13 @@ if (!result[0]) {
                 precio={result[2]}
               />{" "}
             </div>
+
+            </div>
           )}
         </div>
-      </div>
-      </div>
+        </div>
+        </div>
+      
       {/* {!mortiTable ? <div></div> : <Table mort={mortiTable} />} */}
     </div>
   )}
