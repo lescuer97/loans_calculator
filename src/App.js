@@ -5,16 +5,20 @@ import Home from "./components/pages/Home";
 import Result from "./components/pages/Result";
 
 import ResultState from './context/result/ResultState';
+
 function App() {
   // TODO AGREGAR COMPONENTE DE ADDS
+  // PARA TRATAR SUPLEMENTAR LAS ADDS SE PUEDE USAR coinimp
 
   // TODO TRATAR DE DISEÑAR MEJOR FUCKKK
   
   return (
+    <>
+
     <ResultState>
     <div className='App'>  
     <Router>
-        <Header>
+        <Header/>
             <Switch>
               <Route
                 className="w-full px-8 pt-4 "
@@ -29,10 +33,11 @@ function App() {
          />
             </Switch>
     
-           </Header>
+        
           </Router>
     </div>
     </ResultState>
+    </>
   );
 }
 
