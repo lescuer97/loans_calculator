@@ -11,14 +11,14 @@ const Header = (props) => {
   },[]);
  
   return (
-    <>
-      <nav className='flex items-center justify-between flex-wrap bg-gray-800 p-6 fixed w-full z-10 top-0'>
+    <div className="">
+      <nav className='flex items-center justify-between flex-wrap bg-gray-800 p-3 fixed  w-full  z-10 top-0'>
         <div className='flex items-center flex-shrink-0 text-white mr-6'>
           <Link
             className='text-white no-underline hover:text-white hover:no-underline'
             to='/'>
             <span className='text-2xl pl-2'>
-              <i className='em em-grinning'> Real Estate</i>
+              <i className='em em-grinning'>Loan Calculator</i>
             </span>
           </Link>
         </div>
@@ -40,43 +40,37 @@ const Header = (props) => {
         <div
           className='w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0'
           id='nav-content'>
-          <ul className='list-reset lg:flex justify-end flex-1 items-center'>
-            <li className='mr-3'>
-              <a
-                className='inline-block py-2 px-4 text-white no-underline'
-                href='#'>
-                Active
-              </a>
-            </li>
-            <li className='mr-3'>
-              <a
+          <ul className='list-reset lg:flex lg:justify-end flex-1 items-center'>
+                  <li className='mr-3'>
+              <Link
                 className='inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4'
-                href='#'>
-                link
-              </a>
+                to='/'>
+                Calculator
+              </Link>
             </li>
             <li className='mr-3'>
-              <a
-                className='inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4'
-                href='#'>
-                link
-              </a>
+               <Link
+                className='inline-block text-gray-600 py-2 px-4 text-white no-underline'
+               to='/project'>
+                  The Project
+              </Link>
             </li>
             <li className='mr-3'>
-              <a
+              <Link
                 className='inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4'
-                href='#'>
-                link
-              </a>
+                to='/blog'>
+                Blog
+              </Link>
             </li>
+
           </ul>
         </div>
       </nav>
 
-      <div className='container shadow-lg mx-auto bg-white mt-24 md:mt-18'></div>
+      <div className='container shadow-lg mx-auto bg-white mt-20 md:mt-24 md:mt-18'></div>
 
-      {props.children}
-    </>
+
+    </div>
   );
 };
 
