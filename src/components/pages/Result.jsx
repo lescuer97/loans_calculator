@@ -25,9 +25,9 @@ const Result = () => {
                 <div></div>
               ) : (
                 <div className="flex flex-col md:flex-row">
-                  <div className="card md:mt-0 md:mx-3 px-3 ">
+                  <div className="card md:mt-0 md:mx-3 px-3 mx-3 md:w-1/4 ">
                     <p className="card-tittle">
-                      <strong>Normal Data</strong>
+                      <strong>Datos Normales</strong>
                     </p>
                     <ChartPie
                       graphdat={result[0][0]}
@@ -36,10 +36,10 @@ const Result = () => {
                     />
                   </div>
 
-                  <div className="card md:mt-0 md:mx-3 px-3 ">
+                  <div className="card md:mt-0 md:mx-3 px-3 mx-3 md:w-1/4 ">
                     <h3 className="card-tittle">
                       {" "}
-                      <strong>Less Loan</strong>
+                      <strong>20% mas ahorro</strong>
                     </h3>{" "}
                     <ChartPie
                       graphdat={result[0][1]}
@@ -48,10 +48,10 @@ const Result = () => {
                     />{" "}
                   </div>
 
-                  <div className="card md:mt-0 md:mx-3 px-3 ">
+                  <div className="card md:mt-0 md:mx-3 px-3 mx-3  md:w-1/4 ">
                     {" "}
                     <h3 className="card-tittle">
-                      <strong>Less Years</strong>
+                      <strong>20% menos tiempo de hipoteca</strong>
                     </h3>{" "}
                     <ChartPie
                       graphdat={result[0][2]}
@@ -60,9 +60,9 @@ const Result = () => {
                     />
                   </div>
 
-                  <div className="card md:mt-0 md:mx-3 px-3  ">
+                  <div className="card md:mt-0 md:mx-3 px-3 mx-3 md:w-1/4  ">
                     <h3 className="card-tittle">
-                      <strong> Less loan and years</strong>
+                      <strong> menos tiempo y mas ahorro</strong>
                     </h3>{" "}
                     <ChartPie
                       graphdat={result[0][3]}
