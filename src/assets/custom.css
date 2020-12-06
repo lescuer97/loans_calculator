@@ -4,7 +4,7 @@
   @apply border;
   @apply border-gray-400;
   @apply rounded-md;
-
+  @apply shadow-md;
   /* @apply max-h-full; */
 }
 .card-tittle {

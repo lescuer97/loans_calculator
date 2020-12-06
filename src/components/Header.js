@@ -12,7 +12,7 @@ const Header = (props) => {
  
   return (
     <div className="">
-      <nav className='flex items-center justify-between flex-wrap bg-gray-800 p-3 fixed  w-full  z-10 top-0'>
+      <nav className='flex items-center justify-between flex-wrap shadow-lg bg-gray-800 p-3 fixed  w-full  z-10 top-0 '>
         <div className='flex items-center flex-shrink-0 text-white mr-6'>
           <Link
             className='text-white no-underline hover:text-white hover:no-underline'
@@ -67,7 +67,7 @@ const Header = (props) => {
         </div>
       </nav>
 
-      <div className='container shadow-lg mx-auto bg-white mt-20 md:mt-24 md:mt-18'></div>
+      <div className='container  mx-auto  mt-20 '></div>
 
 
     </div>
