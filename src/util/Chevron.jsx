@@ -8,11 +8,11 @@ const Chevron = () => {
       width="100"
       height="100"
       viewBox="0 0 24 24"
-      stroke-width="0.5"
+      strokeWidth="0.5"
       stroke="#00abfb"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <polyline points="7 7 12 12 17 7" />
