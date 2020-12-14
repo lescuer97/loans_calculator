@@ -25,10 +25,11 @@ const Mortgage = () => {
   const [mortiData, setMortiData] = useState(null);
 
   // para grafico
-  const [graphdat, setGraphdat] = useState(null);
+  // const [graphdat, setGraphdat] = useState(null);
   const [dat, setDat] = useState(null);
 
-  const [prec, setPrec] = useState("110.000,00 €");
+  const [prec, setPrec] = useState("100.000,00 €");
+
   // loads wasm to the app for calculation
   const loadedWasm = async () => {
     try {
@@ -52,9 +53,6 @@ const Mortgage = () => {
   const { precio, ahorro, años, interes, email } = hip;
 
   // TODO PONER BOTONES PARA CREAR REPORTE
-
-  // TODO CHECKEAR PROBLEMAS CON 0 EN PRECIO Y AHORRO (HACER UN RETURN)
-
   const onChange = (e) => {
     setHip({
       ...hip,
@@ -65,7 +63,7 @@ const Mortgage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    setGraphdat(null);
+    // setGraphdat(null);
     setMortiData(null);
     setPrec(null);
 
@@ -99,6 +97,7 @@ const Mortgage = () => {
     // const lessPrice = calculator(data2);
     const lessPrice = wasm.mort_calculator(data2);
     // console.log(lessPrice);
+
     // this is to not affect the original array so it's completed
     const graphLessPrice = _.clone(lessPrice).pop();
     const lessPricePop = converter(_.clone(graphLessPrice), hip.ahorro);
@@ -108,6 +107,7 @@ const Mortgage = () => {
     data3.anos = data3.anos * 0.8;
     // const lessAnos = calculator(data3);
     const lessAnos = wasm.mort_calculator(data3);
+
     // this is to not affect the original array so it's completed
     const graphLessAnos = _.clone(lessAnos).pop();
     const lessAnosPop = converter(_.clone(graphLessAnos), hip.ahorro);
@@ -118,6 +118,7 @@ const Mortgage = () => {
     data4.prestamo = data4.prestamo * 0.8;
     // const lessEvery = calculator(data4);
     const lessEvery = wasm.mort_calculator(data4);
+
     // this is to not affect the original array so it's completed
     const graphLessEvery = _.clone(lessEvery).pop();
 
@@ -134,36 +135,37 @@ const Mortgage = () => {
       })
     );
     // This is for the graphs
-    setGraphdat([
-      [
-        { name: "Prestamo Total", value: graphNormalData.pago_total_amor * 1 },
-        {
-          name: "Interes Total",
-          value: graphNormalData.intereses_totales * 1,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1 },
-        {
-          name: "Interes Total",
-          value: graphLessPrice.intereses_totales * 1,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1 },
-        {
-          name: "Interes Total",
-          value: graphLessAnos.intereses_totales * 1,
-        },
-      ],
-      [
-        { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1 },
-        {
-          name: "Interes Total",
-          value: graphLessEvery.intereses_totales * 1,
-        },
-      ],
-    ]);
+    // setGraphdat([
+    //   [
+    //     { name: "Prestamo Total", value: graphNormalData.pago_total_amor * 1 },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphNormalData.intereses_totales * 1,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1 },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessPrice.intereses_totales * 1,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1 },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessAnos.intereses_totales * 1,
+    //     },
+    //   ],
+    //   [
+    //     { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1 },
+    //     {
+    //       name: "Interes Total",
+    //       value: graphLessEvery.intereses_totales * 1,
+    //     },
+    //   ],
+    // ]);
+
     // This is for the final data
     setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
     setDat([graphNormalData, graphLessPrice, graphLessPrice, graphLessEvery]);
@@ -172,12 +174,20 @@ const Mortgage = () => {
     }, [50]);
   };
   useEffect(() => {
-    post_results([graphdat, mortiData, prec]);
-  }, [graphdat, mortiData, prec]);
+    post_results([
+      // graphdat,
+      mortiData,
+      prec,
+    ]);
+  }, [
+    // graphdat,
+    mortiData,
+    prec,
+  ]);
 
   return (
     <>
-      <div className="md:w-2/5 max-w-sm border border-solid ">
+      <div className="md:w-2/5 max-w-sm border border-solid shadow-lg  place-self-center min-w-full md:min-w-0">
         <form className="p-4 flex flex-col justify-center" onSubmit={onSubmit}>
           <div className="flex flex-col">
             <label
@@ -304,27 +314,9 @@ const Mortgage = () => {
             />
           </div>
 
-          {/* <div className="flex flex-col mt-2">
-              <label
-                className="block text-gray-700 text-sm font-bold "
-                htmlFor=""
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email"
-                value={email}
-                onChange={onChange}
-                className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
-              />
-            </div> */}
-
           <button
             type="submit"
-            className="md:w-32 bg-indigo-600 hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 transition ease-in-out duration-300"
+            className="md:w-2/4 place-self-center bg-indigo-600 hover:bg-blue-dark text-white font-bold text-lg py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 "
           >
             Calcular
           </button>

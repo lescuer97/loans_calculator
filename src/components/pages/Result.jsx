@@ -7,7 +7,6 @@ import Table from "../pages/Table";
 const Result = () => {
   const resultContext = useContext(ResultContext);
   const { result } = resultContext;
-  console.log(result);
 
   if (!result[0]) {
     return (
@@ -30,8 +29,8 @@ const Result = () => {
                       <strong>Datos Normales</strong>
                     </p>
                     <ChartPie
-                      graphdat={result[0][0]}
-                      mortiData={result[1][0]}
+                      // graphdat={result[0][0]}
+                      mortiData={result[0][0]}
                       precio={result[2]}
                     />
                   </div>
@@ -42,8 +41,8 @@ const Result = () => {
                       <strong>20% mas ahorro</strong>
                     </h3>{" "}
                     <ChartPie
-                      graphdat={result[0][1]}
-                      mortiData={result[1][1]}
+                      // graphdat={result[0][1]}
+                      mortiData={result[0][1]}
                       precio={result[2]}
                     />{" "}
                   </div>
@@ -54,8 +53,8 @@ const Result = () => {
                       <strong>20% menos tiempo de hipoteca</strong>
                     </h3>{" "}
                     <ChartPie
-                      graphdat={result[0][2]}
-                      mortiData={result[1][2]}
+                      // graphdat={result[0][2]}
+                      mortiData={result[0][2]}
                       precio={result[2]}
                     />
                   </div>
@@ -65,8 +64,8 @@ const Result = () => {
                       <strong> menos tiempo y mas ahorro</strong>
                     </h3>{" "}
                     <ChartPie
-                      graphdat={result[0][3]}
-                      mortiData={result[1][3]}
+                      // graphdat={result[0][3]}
+                      mortiData={result[0][3]}
                       precio={result[2]}
                     />{" "}
                   </div>

@@ -30,6 +30,12 @@ const ChartPie = (props) => {
           <strong className="text-red-500">{gasto_total}</strong>
         </h1>
       </div>
+      {/* <div className="mb-1">
+        <p className="text-center">Terminarias Pagando por la casa:</p>
+        <h1 className="text-center text-2xl lg:text-3xl">
+          <strong className="text-red-500">{gasto_total}</strong>
+        </h1>
+      </div> */}
     </div>
   );
 };
