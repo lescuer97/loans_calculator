@@ -1,11 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="footer flex flex-row md:flex-col justify-end border-t-1 pin-b  ">
-      <a className="mr-1">Home</a> <p className="contents  md:hidden"> | </p>{" "}
-      <a className="mx-1"> The Project </a>{" "}
-      <p className="contents md:hidden"> | </p> <a className="ml-1">Blog</a>
+      <Link to="/" className="mr-1 md:m-0">
+        Home
+      </Link>{" "}
+      <p className="contents  md:hidden"> | </p>{" "}
+      <Link to="/project" className="mx-1 md:m-0">
+        The Project{" "}
+      </Link>{" "}
+      <p className="contents md:hidden"> | </p>{" "}
+      <Link to="blog" className="ml-1 md:m-0 ">
+        Blog
+      </Link>
     </footer>
   );
 };

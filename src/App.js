@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from "./components/pages/Home";
 import Result from "./components/pages/Result";
+import Project from "./components/pages/Project";
 
 import ResultState from './context/result/ResultState';
 
@@ -18,7 +19,6 @@ function App() {
     <>
     <ResultState>
     <div className='flex flex-col h-screen md:justify-between'>  
-     
     <Router>
        <Header/>
             <Switch>
@@ -33,9 +33,16 @@ function App() {
                 path="/result"
                 component={Result}
          />
-            </Switch>
-          </Router>
-          <Footer/>
+                <Route className="w-full px-8 pt-4"
+                exact
+                path="/project"
+                component={Project}
+         />
+            </Switch>  
+            <Footer/>
+            </Router>
+
+        
     </div>
     </ResultState>
     </>
