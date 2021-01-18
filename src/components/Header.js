@@ -17,8 +17,8 @@ const Header = (props) => {
           <Link
             className='text-white no-underline hover:text-white hover:no-underline'
             to='/'>
-            <span className='text-2xl pl-2'>
-              <i className='em em-grinning'>Loan Calculator</i>
+            <span className=' text-xl lg:text-2xl pl-2'>
+              <i className='em em-grinning'>Calculadora Hipoteca </i>
             </span>
           </Link>
         </div>
@@ -67,7 +67,7 @@ const Header = (props) => {
         </div>
       </nav>
 
-      <div className='container  mx-auto  mt-20 '></div>
+      <div className='container  mx-auto  mt-20 md:mt-12 '></div>
 
 
     </div>
