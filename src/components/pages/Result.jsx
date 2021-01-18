@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import ResultContext from "../../context/result/ResultContext";
-import BarCh from "../charts/BarCh";
+import { Helmet } from "react-helmet";
 
 import ChartPie from "../charts/ChartPie";
-import Table from "../pages/Table";
+
 const Result = () => {
   const resultContext = useContext(ResultContext);
   const { result } = resultContext;
@@ -17,6 +17,12 @@ const Result = () => {
   } else {
     return (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" name="calculadora" content="Resultado" />
+          <meta name="author" content="Leonardo Escuer" />;
+          <title>Resultados</title>
+        </Helmet>
+
         <div className="flex flex-col justify-center md:flex md:flex-row">
           <div className="flex flex-wrap justify-center">
             <div>
@@ -25,7 +31,7 @@ const Result = () => {
               ) : (
                 <div className="flex flex-col md:flex-row">
                   <div className="card md:mt-0 md:mx-3 px-3 mx-3 md:w-1/4 ">
-                    <p className="card-tittle">
+                    <p className="card-tittle py-5">
                       <strong>Datos Normales</strong>
                     </p>
                     <ChartPie
@@ -36,7 +42,7 @@ const Result = () => {
                   </div>
 
                   <div className="card md:mt-0 md:mx-3 px-3 mx-3 md:w-1/4 ">
-                    <h3 className="card-tittle">
+                    <h3 className="card-tittle py-5 ">
                       {" "}
                       <strong>20% mas ahorro</strong>
                     </h3>{" "}
@@ -74,7 +80,6 @@ const Result = () => {
             </div>
           </div>
         </div>
-
         {/* {!mortiTable ? <div></div> : <Table mort={mortiTable} />} */}
       </div>
     );
