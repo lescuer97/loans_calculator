@@ -9,12 +9,9 @@ import Project from "./components/pages/Project";
 import ResultState from './context/result/ResultState';
 
 function App() {
-  // TODO AGREGAR COMPONENTE DE ADDS
+ 
+ 
   // PARA TRATAR SUPLEMENTAR LAS ADDS SE PUEDE USAR coinimp
-
-  // TODO TRATAR DE DISEÑAR MEJOR FUCKKK
-
-  
   return (
     <>
     <ResultState>
