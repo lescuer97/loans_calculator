@@ -4,12 +4,9 @@ import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import ResultContext from "../../context/result/ResultContext";
 
-// import calculator from "../../util/calculator";
-import converter from "../../util/converter";
-// import BarCh from "../charts/BarCh";
 
-// import Table from "../pages/Table";
-// import ChartPie from "../charts/ChartPie";
+import converter from "../../util/converter";
+
 
 const Mortgage = () => {
   let history = useHistory();
@@ -18,14 +15,14 @@ const Mortgage = () => {
 
   const [wasm, setWasm] = useState(null);
 
-  // for entire data table
-  const [mortiTable, setMortiTable] = useState(null);
+  // // for entire data table
+  // const [mortiTable, setMortiTable] = useState(null);
 
   // para datos legible
   const [mortiData, setMortiData] = useState(null);
 
   // para grafico
-  // const [graphdat, setGraphdat] = useState(null);
+
   const [dat, setDat] = useState(null);
 
   const [prec, setPrec] = useState("100.000,00 €");
@@ -134,37 +131,7 @@ const Mortgage = () => {
         currency: "EUR",
       })
     );
-    // This is for the graphs
-    // setGraphdat([
-    //   [
-    //     { name: "Prestamo Total", value: graphNormalData.pago_total_amor * 1 },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphNormalData.intereses_totales * 1,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessPrice.pago_total_amor * 1 },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessPrice.intereses_totales * 1,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessAnos.pago_total_amor * 1 },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessAnos.intereses_totales * 1,
-    //     },
-    //   ],
-    //   [
-    //     { name: "Prestamo Total", value: graphLessEvery.pago_total_amor * 1 },
-    //     {
-    //       name: "Interes Total",
-    //       value: graphLessEvery.intereses_totales * 1,
-    //     },
-    //   ],
-    // ]);
+   
 
     // This is for the final data
     setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
@@ -191,7 +158,7 @@ const Mortgage = () => {
         <form className="p-4 flex flex-col justify-center" onSubmit={onSubmit}>
           <div className="flex flex-col">
             <label
-              className="block text-gray-700 text-sm font-bold "
+              className="block text-gray-700 text-sm font-bold " 
               htmlFor=""
             >
               Precio del inmueble
@@ -216,7 +183,7 @@ const Mortgage = () => {
               value={precio}
               placeholder="cuanto pediras prestado?"
               onChange={onChange}
-              className="w-100  py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
+              className=""
             />
           </div>
 
@@ -254,7 +221,7 @@ const Mortgage = () => {
               id="ahorro"
               value={ahorro}
               onChange={onChange}
-              className="w-100  py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
+              className=""
             />
           </div>
           <div className="flex flex-col">
@@ -282,7 +249,7 @@ const Mortgage = () => {
               id="años"
               value={años}
               onChange={onChange}
-              className="w-100  py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
+              className=""
             />
           </div>
           <div className="flex flex-col">
@@ -310,7 +277,7 @@ const Mortgage = () => {
               id="interes"
               value={interes}
               onChange={onChange}
-              className="w-100  py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
+              className=""
             />
           </div>
 
