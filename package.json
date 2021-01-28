@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects ",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css -w",
     "test": "jest",
     "eject": "react-scripts eject"
