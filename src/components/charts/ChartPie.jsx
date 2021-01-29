@@ -1,19 +1,19 @@
-import React, { useMemo, useEffect } from "react";
+import React from "react";
 // import { PieChart, Pie, Cell, Legend, Tooltip,  BarChart, Bar,  XAxis, YAxis, CartesianGrid } from "recharts";
 // TODO ADD ANIMATION
 const ChartPie = (props) => {
   // useEffect(() => {})
 
-  const data = useMemo(() => props.graphdat, [props.graphdat]);
+  // const data = useMemo(() => props.graphdat, [props.graphdat]);
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  // const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   let {
-    balance,
+    // balance,
     pago_mensual,
     gasto_total,
-    pago_total_amor,
-    intereses_totales,
+    // pago_total_amor,
+    // intereses_totales,
   } = props.mortiData;
 
   return (

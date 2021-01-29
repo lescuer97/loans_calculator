@@ -47,7 +47,9 @@ const Mortgage = () => {
     email: "",
   });
 
-  const { precio, ahorro, años, interes, email } = hip;
+  const { precio, ahorro, años, interes
+    // , email
+  } = hip;
 
   // TODO PONER BOTONES PARA CREAR REPORTE
   const onChange = (e) => {
