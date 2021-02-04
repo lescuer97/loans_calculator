@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import React, { useState, useContext, useEffect} from "react";
 import { useHistory } from "react-router-dom";
-
-import _ from "lodash";
-import ResultContext from "../../context/result/ResultContext";
-
-
+//module
 import converter from "../../util/converter";
+import mort_calculator from "../../util/mort_calculator"; 
+import data_procesor from '../../util/data_procesor';
+
+// context
+import ResultContext from "../../context/result/ResultContext";
 
 
 const Mortgage = () => {
@@ -15,16 +16,9 @@ const Mortgage = () => {
 
   const [wasm, setWasm] = useState(null);
 
-  // // for entire data table
-  // const [mortiTable, setMortiTable] = useState(null);
 
   // para datos legible
   const [mortiData, setMortiData] = useState(null);
-
-  // para grafico
-
-  const [dat, setDat] = useState(null);
-
   const [prec, setPrec] = useState("100.000,00 €");
 
   // loads wasm to the app for calculation
@@ -33,10 +27,10 @@ const Mortgage = () => {
       const pack = await import("workers");
       setWasm(pack);
     } catch (err) {
-      console.log("couldn't import wasm");
+      setWasm(mort_calculator);
     }
   };
-
+  //carga la libreria de wasm
   loadedWasm();
 
   const [hip, setHip] = useState({
@@ -47,9 +41,7 @@ const Mortgage = () => {
     email: "",
   });
 
-  const { precio, ahorro, años, interes
-    // , email
-  } = hip;
+  const { precio, ahorro, años, interes } = hip;
 
   // TODO PONER BOTONES PARA CREAR REPORTE
   const onChange = (e) => {
@@ -61,18 +53,8 @@ const Mortgage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // setGraphdat(null);
-    setMortiData(null);
-    setPrec(null);
-
-    if (hip.precio === "0" && hip.ahorro > hip.precio) {
-      console.log("Error!");
-      return;
-    }
-
+    const calculator = wasm.mort_calculator;
     const prestamoCalc = hip.precio - hip.ahorro;
-    // console.log("prestamo Calc: ",prestamoCalc);
 
     const data = {
       precio: hip.precio * 1,
@@ -81,75 +63,55 @@ const Mortgage = () => {
       interes: (hip.interes * 1) / 100,
     };
 
-    //normal data
-    // const normalData = calculator(data);
-    const normalData = wasm.mort_calculator(data);
-    // console.log(normalData);
+    // Consejo de juan de usar el spread operator para shallow copy, juraria que la ultima vez no funciono :/
+    const dataLessPrice = {...data};
+    const dataLessAnos = {...data};
+    const dataLessAnosPrice = {...data}; 
 
-    // this is to not affect the original array so it's completed
-    const graphNormalData = _.clone(normalData).pop();
-    const normalDataPop = converter(_.clone(graphNormalData), hip.ahorro);
+ 
+    //calculous with default data
+    const ProcessedNormalData = data_procesor(calculator, data);
+     // prettyfies the data for display 
+    const PrettyNormalData = converter(ProcessedNormalData, hip.ahorro);
 
-    // calculates data with less price same year and interest
-    const data2 = _.clone(data);
-    data2.prestamo = data2.prestamo * 0.8;
-    // const lessPrice = calculator(data2);
-    const lessPrice = wasm.mort_calculator(data2);
-    // console.log(lessPrice);
+    // calculates data with 20% less loan amoun
+    const ProcessedDataLessPrice = data_procesor(calculator, dataLessPrice,  dataLessPrice.prestamo, 0 ,  0.8 );
+    // prettyfies the data for display 
+    const lessPricePop = converter(ProcessedDataLessPrice, hip.ahorro);
 
-    // this is to not affect the original array so it's completed
-    const graphLessPrice = _.clone(lessPrice).pop();
-    const lessPricePop = converter(_.clone(graphLessPrice), hip.ahorro);
+    // calculates data with 20% less years
+    const ProcessedDataLessAno = data_procesor(calculator, dataLessAnos, 0, dataLessAnos.anos, 0.8 );
+    // prettyfies the data for display 
+    const lessAnosPop = converter(ProcessedDataLessAno, hip.ahorro);
 
-    // calculates data with less years
-    const data3 = _.clone(data);
-    data3.anos = data3.anos * 0.8;
-    // const lessAnos = calculator(data3);
-    const lessAnos = wasm.mort_calculator(data3);
+    // calculates data with 20% less years and loans
+   const  ProcessedDataLessAnoPrice = data_procesor(calculator, dataLessAnosPrice, dataLessAnosPrice.prestamo, dataLessAnosPrice.anos, 0.8 );
+   // prettyfies the data for display 
+    const lessEveryPop = converter(ProcessedDataLessAnoPrice, hip.ahorro);
 
-    // this is to not affect the original array so it's completed
-    const graphLessAnos = _.clone(lessAnos).pop();
-    const lessAnosPop = converter(_.clone(graphLessAnos), hip.ahorro);
-
-    // calculates data with less of everything
-    const data4 = _.clone(data);
-    data4.anos = data4.anos * 0.8;
-    data4.prestamo = data4.prestamo * 0.8;
-    // const lessEvery = calculator(data4);
-    const lessEvery = wasm.mort_calculator(data4);
-
-    // this is to not affect the original array so it's completed
-    const graphLessEvery = _.clone(lessEvery).pop();
-
-    const lessEveryPop = converter(_.clone(graphLessEvery), hip.ahorro);
-    lessEveryPop.balance = lessEveryPop.balance.toLocaleString("es-ES", {
-      style: "currency",
-      currency: "EUR",
-    });
-
+    // this sets the local state before sending to context 
+    setMortiData([PrettyNormalData, lessPricePop, lessAnosPop, lessEveryPop]);
     setPrec(
       (hip.precio * 1).toLocaleString("es-ES", {
         style: "currency",
         currency: "EUR",
       })
     );
-   
 
-    // This is for the final data
-    setMortiData([normalDataPop, lessPricePop, lessAnosPop, lessEveryPop]);
-    setDat([graphNormalData, graphLessPrice, graphLessPrice, graphLessEvery]);
+    //waits a little so the global state can load
     setTimeout(() => {
       history.push("/result");
     }, [50]);
+
   };
+
+  //sends the local state to the global context
   useEffect(() => {
     post_results([
-      // graphdat,
       mortiData,
       prec,
     ]);
   }, [
-    // graphdat,
     mortiData,
     prec,
   ]);
