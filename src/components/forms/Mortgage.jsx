@@ -11,42 +11,41 @@ import ResultContext from "../../context/result/ResultContext";
 
 const Mortgage = () => {
   let history = useHistory();
+  
+  //context
   const resultContext = useContext(ResultContext);
   const { post_results } = resultContext;
 
-  const [wasm, setWasm] = useState(null);
-
-
-  // para datos legible
-  const [mortiData, setMortiData] = useState(null);
-  const [prec, setPrec] = useState("100.000,00 €");
-
-  // loads wasm to the app for calculation
-  const loadedWasm = async () => {
-    try {
-      const pack = await import("workers");
-      setWasm(pack);
-    } catch (err) {
-      setWasm(mort_calculator);
-    }
-  };
-  //carga la libreria de wasm
-  loadedWasm();
-
-  const [hip, setHip] = useState({
+  const [hipoteca, setHipoteca] = useState({
     precio: 100000,
     años: 30,
     ahorro: 20000,
     interes: 2,
     email: "",
   });
+  
+  const [wasm, setWasm] = useState(null);
+    // loads wasm to the app for calculation if fails load javascript calculator
+    const loadedWasm = async () => {
+      try {
+        const pack = await import("workers");
+        setWasm(pack);
+      } catch (err) {
+        setWasm(mort_calculator);
+      }
+    };
 
-  const { precio, ahorro, años, interes } = hip;
+    //carga la libreria de wasm
+    loadedWasm();
+
+  // para datos legible
+
+  const { precio, ahorro, años, interes } = hipoteca;
 
   // TODO PONER BOTONES PARA CREAR REPORTE
   const onChange = (e) => {
-    setHip({
-      ...hip,
+    setHipoteca({
+      ...hipoteca,
       [e.target.name]: e.target.value,
     });
   };
@@ -54,13 +53,13 @@ const Mortgage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const calculator = wasm.mort_calculator;
-    const prestamoCalc = hip.precio - hip.ahorro;
+    const prestamoCalc = hipoteca.precio - hipoteca.ahorro;
 
     const data = {
-      precio: hip.precio * 1,
+      precio: hipoteca.precio * 1,
       prestamo: prestamoCalc,
-      anos: hip.años * 1,
-      interes: (hip.interes * 1) / 100,
+      anos: hipoteca.años * 1,
+      interes: (hipoteca.interes * 1) / 100,
     };
 
     // Consejo de juan de usar el spread operator para shallow copy, juraria que la ultima vez no funciono :/
@@ -68,52 +67,45 @@ const Mortgage = () => {
     const dataLessAnos = {...data};
     const dataLessAnosPrice = {...data}; 
 
- 
     //calculous with default data
     const ProcessedNormalData = data_procesor(calculator, data);
      // prettyfies the data for display 
-    const PrettyNormalData = converter(ProcessedNormalData, hip.ahorro);
+    const PrettyNormalData = converter(ProcessedNormalData, hipoteca.ahorro);
 
     // calculates data with 20% less loan amoun
     const ProcessedDataLessPrice = data_procesor(calculator, dataLessPrice,  dataLessPrice.prestamo, 0 ,  0.8 );
     // prettyfies the data for display 
-    const lessPricePop = converter(ProcessedDataLessPrice, hip.ahorro);
+    const lessPricePop = converter(ProcessedDataLessPrice, hipoteca.ahorro);
 
     // calculates data with 20% less years
     const ProcessedDataLessAno = data_procesor(calculator, dataLessAnos, 0, dataLessAnos.anos, 0.8 );
     // prettyfies the data for display 
-    const lessAnosPop = converter(ProcessedDataLessAno, hip.ahorro);
+    const lessAnosPop = converter(ProcessedDataLessAno, hipoteca.ahorro);
 
     // calculates data with 20% less years and loans
    const  ProcessedDataLessAnoPrice = data_procesor(calculator, dataLessAnosPrice, dataLessAnosPrice.prestamo, dataLessAnosPrice.anos, 0.8 );
    // prettyfies the data for display 
-    const lessEveryPop = converter(ProcessedDataLessAnoPrice, hip.ahorro);
+    const lessEveryPop = converter(ProcessedDataLessAnoPrice, hipoteca.ahorro);
 
-    // this sets the local state before sending to context 
-    setMortiData([PrettyNormalData, lessPricePop, lessAnosPop, lessEveryPop]);
-    setPrec(
-      (hip.precio * 1).toLocaleString("es-ES", {
-        style: "currency",
-        currency: "EUR",
-      })
-    );
+    // this sets the local state before sending to context
+    setHipoteca(null);
+
+    // toma los datos de la hipoteca y los pasa a el estado
+    setHipoteca([PrettyNormalData, lessPricePop, lessAnosPop, lessEveryPop]);
 
     //waits a little so the global state can load
     setTimeout(() => {
       history.push("/result");
     }, [50]);
-
   };
 
   //sends the local state to the global context
   useEffect(() => {
     post_results([
-      mortiData,
-      prec,
+      hipoteca,
     ]);
   }, [
-    mortiData,
-    prec,
+    hipoteca,
   ]);
 
   return (
