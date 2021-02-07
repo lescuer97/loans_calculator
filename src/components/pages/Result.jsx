@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ResultContext from "../../context/result/ResultContext";
 import { Helmet } from "react-helmet";
 
-import ChartPie from "../charts/ChartPie";
+import ResultItem from "../items/ResultItem";
 
 const Result = () => {
   const resultContext = useContext(ResultContext);
@@ -34,10 +34,9 @@ const Result = () => {
                     <p className="card-tittle py-5">
                       <strong>Datos Normales</strong>
                     </p>
-                    <ChartPie
-                      // graphdat={result[0][0]}
+                    <ResultItem                    
                       mortiData={result[0][0]}
-                      precio={result[2]}
+                     
                     />
                   </div>
 
@@ -46,10 +45,9 @@ const Result = () => {
                       {" "}
                       <strong>20% mas ahorro</strong>
                     </h3>{" "}
-                    <ChartPie
-                      // graphdat={result[0][1]}
+                    <ResultItem                     
                       mortiData={result[0][1]}
-                      precio={result[2]}
+                  
                     />{" "}
                   </div>
 
@@ -58,10 +56,8 @@ const Result = () => {
                     <h3 className="card-tittle">
                       <strong>20% menos tiempo de hipoteca</strong>
                     </h3>{" "}
-                    <ChartPie
-                      // graphdat={result[0][2]}
+                    <ResultItem                     
                       mortiData={result[0][2]}
-                      precio={result[2]}
                     />
                   </div>
 
@@ -69,10 +65,8 @@ const Result = () => {
                     <h3 className="card-tittle">
                       <strong> menos tiempo y mas ahorro</strong>
                     </h3>{" "}
-                    <ChartPie
-                      // graphdat={result[0][3]}
-                      mortiData={result[0][3]}
-                      precio={result[2]}
+                    <ResultItem                    
+                      mortiData={result[0][3]}                     
                     />{" "}
                   </div>
                 </div>
@@ -80,7 +74,7 @@ const Result = () => {
             </div>
           </div>
         </div>
-        {/* {!mortiTable ? <div></div> : <Table mort={mortiTable} />} */}
+
       </div>
     );
   }
