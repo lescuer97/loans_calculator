@@ -56,11 +56,11 @@ const Header = (props) => {
               </Link>
             </li>
             <li className='mr-3'>
-              <Link
+              <a
                 className='inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4'
-                to='/'>
+                target="_blank" rel="noopener noreferrer" href='https://www.leito.dev'>
                 Portafolio
-              </Link>
+              </a>
             </li>
 
           </ul>
